@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_chat_application/models/message.dart';
 
+import '../../lib.dart';
+
 class ChatService {
   // get the instance of firestore & auth
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -70,5 +72,35 @@ class ChatService {
         .collection("messages")
         .orderBy("timestamp", descending: true)
         .snapshots();
+  }
+
+  //
+  Future<void> getChatRoom() async {
+    CollectionReference<Map<String, dynamic>> collectionReference =
+        _firestore.collection('chat_rooms');
+    QuerySnapshot<Map<String, dynamic>>? querySnapshot =
+        await collectionReference.get();
+    List<dynamic> id = [];
+    List<String> docId = [];
+    querySnapshot.docs.forEach((element) {
+      debugPrint("Data: ${element.data()['member']}");
+      List<dynamic> member = element.data()['member'];
+      // debugPrint('Member: $member');
+      id = member
+          .where((element) => element.toString() == _auth.currentUser!.uid)
+          .toList();
+      if (id.isEmpty) {
+        docId.add(element.data()['id']);
+      }
+    });
+    debugPrint('id: $docId');
+    QuerySnapshot<Map<String, dynamic>> messages = await _firestore
+        .collection('chat_rooms')
+        .doc(docId[0])
+        .collection('messages')
+        .get();
+    for (var element in messages.docs) {
+      debugPrint('message: ${element.data()}');
+    }
   }
 }

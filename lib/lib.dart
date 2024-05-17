@@ -12,3 +12,4 @@ export 'package:firebase_core/firebase_core.dart';
 export 'package:flutter_chat_application/firebase_options.dart';
 export 'package:flutter_chat_application/lib.dart';
 export 'package:flutter_chat_application/main.dart';
+export 'package:clipboard/clipboard.dart';

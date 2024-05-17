@@ -1,7 +1,7 @@
 import '../../lib.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -26,6 +26,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     // authServices.signOut();
                     isAddPressed = !isAddPressed;
+                    ChatService().getChatRoom();
                     setState(() {});
                   },
                   icon: const Icon(Icons.add),
@@ -36,12 +37,20 @@ class _HomePageState extends State<HomePage> {
               title: TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Search',
+                  hintText: 'Add User',
                   fillColor: Colors.grey.shade300,
                   filled: true,
                 ),
               ),
               actions: [
+                IconButton(
+                  onPressed: () {
+                    // authServices.signOut();
+                    isAddPressed = !isAddPressed;
+                    setState(() {});
+                  },
+                  icon: const Icon(Icons.add),
+                ),
                 IconButton(
                   onPressed: () {
                     // authServices.signOut();
